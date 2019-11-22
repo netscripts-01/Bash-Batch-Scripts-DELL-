@@ -1,0 +1,45 @@
+#!/usr/bin/expect -f
+
+set ip [lindex $argv 0]
+
+spawn ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no [switch user]@$ip
+sleep 3
+expect "*?assword"
+sleep 3
+send "[user password]\r"
+sleep 3
+expect ">"
+sleep 3
+send "enable\r"
+sleep 3
+expect "*?assword"
+sleep 3
+send "[enable function user]\r"
+sleep 3
+expect "#"
+sleep 2
+send "show interfaces\r"
+sleep 5
+while 1 {
+   expect {
+      "console#" break
+      "--More--"
+   }
+   send "m\r"   
+}
+send "exit\r"
+sleep 2
+expect "#"
+sleep 2
+send "exit\r"
+sleep 2
+expect ">"
+sleep 2
+send -- "exit\r"
+sleep 2
+
+expect eof
+
+
+
+

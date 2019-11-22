@@ -1,0 +1,58 @@
+#!/usr/bin/expect -f
+
+set ip [lindex $argv 0]
+
+spawn ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no [switch user]@$ip
+sleep 3
+expect "*?assword"
+sleep 3
+send "[user password]\r"
+sleep 3
+expect ">"
+sleep 3
+send "enable\r"
+sleep 3
+expect "*?assword"
+sleep 3
+send "[enable function password\r"
+sleep 3
+expect "#"
+sleep 2
+send "config\r"
+sleep 2
+send "sflow 1 destination x.x.x.x\r"
+sleep 2
+send "sflow 1 destination owner receiver1 timeout 8192\r"
+sleep 2
+send "sflow 1 polling gi1/0/1-12 80\r"
+sleep 2
+send "sflow 1 sampling gi1/0/1-12 8192\r"
+sleep 2
+send "sflow 1 polling gi1/0/13-24 80\r"
+sleep 2
+send "sflow 1 sampling gi1/0/13-24 8192\r"
+sleep 2
+send "sflow 1 polling gi1/0/25-36 80\r"
+sleep 2
+send "sflow 1 sampling gi1/0/25-36 8192\r"
+sleep 2
+send "sflow 1 polling gi1/0/37-48 80\r"
+sleep 2
+send "sflow 1 sampling gi1/0/37-48 8192\r"
+sleep 2
+expect "#"
+sleep 2
+expect "#"
+sleep 2
+send "exit\r"
+sleep 2
+expect ">"
+sleep 2
+send -- "exit\r"
+sleep 2
+
+expect eof
+
+
+
+
